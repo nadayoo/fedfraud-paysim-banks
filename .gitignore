@@ -1,1 +1,8 @@
 .venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated local-only datasets and model artifacts
+results/local_only/bank_*/
