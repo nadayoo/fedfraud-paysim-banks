@@ -1,0 +1,9 @@
+.venv/
+.venv-flwr/
+flower-reference/
+__pycache__/
+data_cache/
+*.npz
+*.pt
+*.pth
+scratch_*.py

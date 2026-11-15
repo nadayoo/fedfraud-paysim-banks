@@ -1,0 +1,11 @@
+epochs: 20
+batch_size: 1024
+lr_max: 0.0001
+lr_min: 0.00001
+weight_decay: 0.00001
+grad_clip: 1.0
+imbalance: sampler        # none | sampler | pos_weight | both
+patience: 5
+train_eval_subset: 200000 # natural-distribution subset of train for comparable loss curve
+cache_path: data_cache/processed.npz
+out_dir: results/centralized
