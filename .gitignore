@@ -1,8 +1,12 @@
 .venv/
-
-# Python cache
+.venv-flwr/
+flower-reference/
 __pycache__/
 *.pyc
-
-# Generated local-only datasets and model artifacts
+data_cache/
+*.npz
+*.pt
+*.pth
+scratch_*.py
 results/local_only/bank_*/
+results/centralized/
