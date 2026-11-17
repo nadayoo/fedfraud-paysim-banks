@@ -5,6 +5,9 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data_cache" / "raw"
 N_BANKS = 5
+import sys
+sys.path.insert(0, str(ROOT))
+from common.data import build_arrays, RAW_COLUMNS
 
 
 def load_train():
@@ -78,6 +81,28 @@ def summarize(train, assignment, name):
     print(f"\n=== {name} ===")
     print(g.round(4).to_string())
     print(types.round(2).to_string())
+
+PARTITIONS = {
+    "original": lambda df, seed: original(df, seed),
+    "iid": lambda df, seed: iid(df, seed),
+    "fraud_skew": lambda df, seed: fraud_skew(df, seed),
+    "type_skew_a0.5": lambda df, seed: type_skew(df, seed, alpha=0.5),
+}
+
+
+def load_partition_data(name, seed=0, use_cache=True):
+    """Preprocessed arrays (same format as common.data) with BankID = the chosen partition."""
+    cache = ROOT / "data_cache" / "partitions" / f"{name}_seed{seed}.npz"
+    if use_cache and cache.exists():
+        with np.load(cache) as f:
+            return {k: f[k] for k in f.files}
+    train = load_train()[RAW_COLUMNS].copy()
+    test = pd.read_parquet(RAW / "test.parquet")[RAW_COLUMNS]
+    train["BankID"] = PARTITIONS[name](train, seed)
+    data = build_arrays(train, test)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    np.savez(cache, **data)
+    return data
 
 
 if __name__ == "__main__":
