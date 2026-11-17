@@ -63,6 +63,30 @@ def bce(logits, y):
         )
     )
 
+def scale_engineered_features(data):
+    """Standardize engineered features (columns 6-9) using training data only."""
+    data = dict(data)
+
+    feature_slice = slice(6, 10)
+
+    train = data["X_train"]
+    means = train[:, feature_slice].mean(axis=0)
+    stds = train[:, feature_slice].std(axis=0)
+
+    stds[stds < 1e-12] = 1.0
+
+    for split in ("train", "val", "test"):
+        key = f"X_{split}"
+        data[key] = data[key].copy()
+        data[key][:, feature_slice] = (
+            data[key][:, feature_slice] - means
+        ) / stds
+
+    print("\nExperimental engineered-feature scaling:")
+    print("Means:", means)
+    print("Standard deviations:", stds)
+
+    return data
 
 def plot_results(history, test_metrics, bank_id, seed, out_dir):
     epochs = [item["epoch"] for item in history]
@@ -355,6 +379,7 @@ def main():
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--limit-train-rows", type=int, default=None)
     parser.add_argument("--imbalance", default=None)
+    parser.add_argument("--scale-engineered", action="store_true")
     args = parser.parse_args()
 
     with open(args.base) as f:
@@ -373,6 +398,10 @@ def main():
 
     print("Loading shared preprocessed dataset...")
     data = load_or_build(cfg["cache_path"], cfg["val_fraction"])
+
+    if args.scale_engineered:
+        data = scale_engineered_features(data)
+        cfg["out_dir"] = "results/local_only_scaled"
 
     print("Dataset shapes:", {
         key: data[key].shape
