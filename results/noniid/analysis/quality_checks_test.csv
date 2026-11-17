@@ -1,0 +1,17 @@
+,value
+rows,636262
+duplicate_rows,0
+missing_values,0
+unexpected_types,[]
+negative_step,0
+negative_amount,0
+negative_oldbalanceOrg,0
+negative_newbalanceOrig,0
+negative_oldbalanceDest,0
+negative_newbalanceDest,0
+zero_amount_rows,1
+flagged_fraud_total,2
+flagged_and_fraud,2
+orig_balance_mismatch_rows,508063
+nameOrig_unique,636162
+nameOrig_in_multiple_banks,0
