@@ -1,0 +1,9 @@
+Final round (20) at threshold 0.5, mean ± std over 3 seeds (%):
+  accuracy    94.87 ± 0.02
+  precision    2.44 ± 0.01
+  recall      99.51 ± 0.00
+  f1           4.77 ± 0.02
+  pr_auc      56.72 ± 0.25
+  roc_auc     99.31 ± 0.02
+
+Paper FedAvg PR-AUC 56.40 ± 0.45 | reproduced 56.72 ± 0.25 (gap +0.32)

@@ -1,0 +1,129 @@
+{
+  "totals": {
+    "total_client_train_time_sec": 26466.105128099967,
+    "total_comm_bytes": 8602400,
+    "total_time_sec": 33056.437114715576
+  },
+  "train_rounds": {
+    "1": {
+      "client_train_time_sec_sum": 959.9992615999654,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 969.6451272964478,
+      "train_loss_weighted": 0.3029582091023606
+    },
+    "10": {
+      "client_train_time_sec_sum": 537.7538848999538,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 562.1597676277161,
+      "train_loss_weighted": 0.13475740938900632
+    },
+    "11": {
+      "client_train_time_sec_sum": 639.2880226000561,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 663.7822270393372,
+      "train_loss_weighted": 0.12771119454684698
+    },
+    "12": {
+      "client_train_time_sec_sum": 377.97285629989346,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 391.5587615966797,
+      "train_loss_weighted": 0.12343535012386708
+    },
+    "13": {
+      "client_train_time_sec_sum": 316.21978909993777,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 329.2369782924652,
+      "train_loss_weighted": 0.11882614773657522
+    },
+    "14": {
+      "client_train_time_sec_sum": 694.6464781000977,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 708.1622564792633,
+      "train_loss_weighted": 0.11704695677951198
+    },
+    "15": {
+      "client_train_time_sec_sum": 472.29063620005036,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 492.9551513195038,
+      "train_loss_weighted": 0.11483113406744354
+    },
+    "16": {
+      "client_train_time_sec_sum": 311.2656972000259,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 324.753541469574,
+      "train_loss_weighted": 0.11337338135927463
+    },
+    "17": {
+      "client_train_time_sec_sum": 323.288780999952,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 336.43932247161865,
+      "train_loss_weighted": 0.11195282608070307
+    },
+    "18": {
+      "client_train_time_sec_sum": 354.5313873999985,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 367.6245527267456,
+      "train_loss_weighted": 0.11121580690066306
+    },
+    "19": {
+      "client_train_time_sec_sum": 306.4303444000543,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 319.54776549339294,
+      "train_loss_weighted": 0.11035569768272052
+    },
+    "2": {
+      "client_train_time_sec_sum": 232.30878529994516,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 242.45939588546753,
+      "train_loss_weighted": 0.28543561733359374
+    },
+    "20": {
+      "client_train_time_sec_sum": 323.7360069999704,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 336.4985179901123,
+      "train_loss_weighted": 0.10984586226586268
+    },
+    "3": {
+      "client_train_time_sec_sum": 12074.492094100046,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 12084.98308634758,
+      "train_loss_weighted": 0.2791838626198483
+    },
+    "4": {
+      "client_train_time_sec_sum": 2996.9407930000452,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 3006.945615530014,
+      "train_loss_weighted": 0.260514510486046
+    },
+    "5": {
+      "client_train_time_sec_sum": 231.52643630001694,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 241.4389510154724,
+      "train_loss_weighted": 0.22783469228210118
+    },
+    "6": {
+      "client_train_time_sec_sum": 1092.9309491000022,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 1105.320718050003,
+      "train_loss_weighted": 0.19412885536829885
+    },
+    "7": {
+      "client_train_time_sec_sum": 2709.8250696999603,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 9025.178891658783,
+      "train_loss_weighted": 0.1705228571501078
+    },
+    "8": {
+      "client_train_time_sec_sum": 482.87927330000093,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 495.8998370170593,
+      "train_loss_weighted": 0.15536169674025258
+    },
+    "9": {
+      "client_train_time_sec_sum": 1027.7785814999952,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 1051.8466494083405,
+      "train_loss_weighted": 0.14180441429874485
+    }
+  }
+}

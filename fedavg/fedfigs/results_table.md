@@ -1,0 +1,9 @@
+| Metric | Mean ± std (%) |
+|---|---|
+| Accuracy | 94.87 ± 0.02 |
+| Precision | 2.44 ± 0.01 |
+| Recall | 99.51 ± 0.00 |
+| F1 | 4.77 ± 0.02 |
+| PR-AUC | 56.72 ± 0.25 |
+| ROC-AUC | 99.31 ± 0.02 |
+| Paper FedAvg PR-AUC | 56.40 ± 0.45 |

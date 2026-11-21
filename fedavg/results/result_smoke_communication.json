@@ -1,0 +1,15 @@
+{
+  "totals": {
+    "total_client_train_time_sec": 293.20931020000717,
+    "total_comm_bytes": 430120,
+    "total_time_sec": 1158.8355283737183
+  },
+  "train_rounds": {
+    "1": {
+      "client_train_time_sec_sum": 293.20931020000717,
+      "comm_bytes_total": 430120,
+      "round_time_sec": 1158.8355283737183,
+      "train_loss_weighted": 0.38520312531394185
+    }
+  }
+}
