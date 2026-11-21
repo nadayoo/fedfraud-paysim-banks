@@ -24,7 +24,7 @@ import torch.nn.functional as F
 import yaml
 from sklearn.metrics import average_precision_score
 
-from common.data import INPUT_DIM, load_or_build, make_loader
+from common.data import load_or_build, make_loader
 from common.metrics import (
     best_f1_threshold,
     compute_metrics,
@@ -33,6 +33,16 @@ from common.metrics import (
 )
 from common.model import Net, count_parameters
 from common.seeding import set_seed
+from local_only.experiment_utils import (
+    apply_feature_policy,
+    config_sha256,
+    ensure_new_outputs,
+    file_sha256,
+    json_safe_config,
+    validate_config,
+    validate_data_dimension,
+    validate_model_directory,
+)
 
 
 def cosine_annealing(cur, total, lr_max, lr_min):
@@ -64,29 +74,9 @@ def bce(logits, y):
     )
 
 def scale_engineered_features(data):
-    """Standardize engineered features (columns 6-9) using training data only."""
-    data = dict(data)
-
-    feature_slice = slice(6, 10)
-
-    train = data["X_train"]
-    means = train[:, feature_slice].mean(axis=0)
-    stds = train[:, feature_slice].std(axis=0)
-
-    stds[stds < 1e-12] = 1.0
-
-    for split in ("train", "val", "test"):
-        key = f"X_{split}"
-        data[key] = data[key].copy()
-        data[key][:, feature_slice] = (
-            data[key][:, feature_slice] - means
-        ) / stds
-
-    print("\nExperimental engineered-feature scaling:")
-    print("Means:", means)
-    print("Standard deviations:", stds)
-
-    return data
+    """Compatibility helper for the scaled ablation's train-fit transform."""
+    transformed, _ = apply_feature_policy(data, "scaled_engineered_15")
+    return transformed
 
 def plot_results(history, test_metrics, bank_id, seed, out_dir):
     epochs = [item["epoch"] for item in history]
@@ -134,6 +124,10 @@ def plot_results(history, test_metrics, bank_id, seed, out_dir):
 
 
 def run_bank_seed(cfg, data, bank_id, seed, out_dir, limit_train_rows=None):
+    expected_dim = int(cfg["feature_count"])
+    validate_data_dimension(data, expected_dim, f"bank {bank_id}, seed {seed}")
+    if out_dir.exists():
+        raise FileExistsError(f"Refusing to overwrite existing run directory: {out_dir}")
     set_seed(seed)
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -170,7 +164,7 @@ def run_bank_seed(cfg, data, bank_id, seed, out_dir, limit_train_rows=None):
     m = cfg["model"]
 
     model = Net(
-        INPUT_DIM,
+        expected_dim,
         m["hidden_dim_1"],
         m["hidden_dim_2"],
         m["dropout"],
@@ -322,9 +316,46 @@ def run_bank_seed(cfg, data, bank_id, seed, out_dir, limit_train_rows=None):
         "test_rows": len(Xtest),
         "device": str(device),
         "smoke_test_limit": limit_train_rows,
+        "experiment_name": cfg["experiment_name"],
+        "model_input_dim": int(model.net[0].in_features),
     })
 
-    torch.save(best_state, out_dir / "model.pt")
+    checkpoint_path = out_dir / "model.pt"
+    torch.save(best_state, checkpoint_path)
+    provenance_context = cfg["_provenance_context"]
+    results["provenance"] = {
+        "experiment_name": cfg["experiment_name"],
+        "bank_id": bank_id,
+        "seed": seed,
+        "feature_count": expected_dim,
+        "feature_names": list(cfg["feature_names"]),
+        "feature_transform": provenance_context["feature_transform"],
+        "configuration_path": provenance_context["configuration_path"],
+        "configuration_sha256": provenance_context["configuration_sha256"],
+        "base_configuration_path": provenance_context["base_configuration_path"],
+        "base_configuration_sha256": provenance_context["base_configuration_sha256"],
+        "configuration": json_safe_config({k: v for k, v in cfg.items() if not k.startswith("_")}),
+        "training_parameters": {
+            k: cfg.get(k) for k in (
+                "epochs", "batch_size", "lr_max", "lr_min", "weight_decay",
+                "grad_clip", "imbalance", "patience", "train_eval_subset",
+            )
+        } | {"limit_train_rows": limit_train_rows},
+        "dataset_cache_path": provenance_context["dataset_cache_path"],
+        "dataset_cache_sha256": provenance_context["dataset_cache_sha256"],
+        "checkpoint_path": str(checkpoint_path.resolve()),
+        "model_input_dim": int(model.net[0].in_features),
+        "best_validation_metric": {"name": "pr_auc", "value": best_pr},
+        "selected_classification_threshold": chosen_threshold,
+        "test_metrics": {
+            "pr_auc": results["pr_auc"],
+            "roc_auc": results["roc_auc"],
+            "at_validation_selected_threshold": results["at_val_best_f1_threshold"],
+            "at_fixed_thresholds": results["thresholds"],
+        },
+        "training_completion_status": "in_progress",
+    }
+    results["training_completion_status"] = "in_progress"
     (out_dir / "history.json").write_text(json.dumps(history, indent=2))
     (out_dir / "results.json").write_text(json.dumps(results, indent=2))
 
@@ -335,6 +366,11 @@ def run_bank_seed(cfg, data, bank_id, seed, out_dir, limit_train_rows=None):
         seed,
         out_dir,
     )
+
+    # Mark complete only after checkpoint, history, metrics, and plots all exist.
+    results["provenance"]["training_completion_status"] = "completed"
+    results["training_completion_status"] = "completed"
+    (out_dir / "results.json").write_text(json.dumps(results, indent=2))
 
     print(
         f"Bank {bank_id} finished | "
@@ -357,6 +393,9 @@ def aggregate(results):
         "seeds": [r["seed"] for r in results],
         "pr_auc": mean_std([r["pr_auc"] for r in results]),
         "roc_auc": mean_std([r["roc_auc"] for r in results]),
+        "accuracy_at_val_best_f1_threshold": mean_std([
+            r["at_val_best_f1_threshold"]["accuracy"] for r in results
+        ]),
         "f1_at_val_best_f1_threshold": mean_std([
             r["at_val_best_f1_threshold"]["f1"] for r in results
         ]),
@@ -370,16 +409,16 @@ def aggregate(results):
     }
 
 
-def main():
+def main(default_config="local_only/configs/local_only.yaml", expected_experiment="flower15"):
     parser = argparse.ArgumentParser()
     parser.add_argument("--base", default="common/config_base.yaml")
-    parser.add_argument("--config", default="local_only/configs/local_only.yaml")
+    parser.add_argument("--config", default=default_config)
+    parser.add_argument("--out-dir", default=None)
     parser.add_argument("--banks", type=int, nargs="*", default=[0, 1, 2, 3, 4])
     parser.add_argument("--seeds", type=int, nargs="*", default=None)
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--limit-train-rows", type=int, default=None)
     parser.add_argument("--imbalance", default=None)
-    parser.add_argument("--scale-engineered", action="store_true")
     args = parser.parse_args()
 
     with open(args.base) as f:
@@ -388,6 +427,10 @@ def main():
         experiment_cfg = yaml.safe_load(f)
 
     cfg = {**base_cfg, **experiment_cfg}
+    spec = validate_config(cfg, expected_experiment, args.config)
+    output_root = Path(args.out_dir if args.out_dir is not None else spec["out_dir"]).resolve()
+    validate_model_directory(output_root, expected_experiment)
+    cfg["out_dir"] = str(output_root)
 
     if args.epochs is not None:
         cfg["epochs"] = args.epochs
@@ -396,12 +439,40 @@ def main():
 
     seeds = args.seeds if args.seeds is not None else cfg["seeds"]
 
+    # Refuse collisions before loading data or beginning training.
+    targets = [output_root, output_root / "summary_all_banks.json"]
+    for bank_id in args.banks:
+        bank_dir = output_root / f"bank_{bank_id}"
+        targets.append(bank_dir / "summary.json")
+        targets.extend(bank_dir / f"seed_{seed}" for seed in seeds)
+        targets.extend(
+            bank_dir / f"seed_{seed}" / name
+            for seed in seeds
+            for name in ("model.pt", "history.json", "results.json", "loss_curves.png", "confusion_matrix.png")
+        )
+    ensure_new_outputs(targets, cfg["experiment_name"])
+
+    config_path = Path(args.config).resolve()
+    print(
+        f"Experiment: {spec['experiment_name']} | features: {cfg['feature_count']} | "
+        f"config: {config_path} | output: {cfg['out_dir']}"
+    )
     print("Loading shared preprocessed dataset...")
     data = load_or_build(cfg["cache_path"], cfg["val_fraction"])
-
-    if args.scale_engineered:
-        data = scale_engineered_features(data)
-        cfg["out_dir"] = "results/local_only_scaled"
+    data, feature_transform = apply_feature_policy(data, cfg["feature_mode"])
+    validate_data_dimension(data, cfg["feature_count"], cfg["experiment_name"])
+    cache_digest = file_sha256(cfg["cache_path"])
+    if cache_digest is None:
+        raise RuntimeError(f"Dataset cache is unavailable for provenance: {cfg['cache_path']}")
+    cfg["_provenance_context"] = {
+        "feature_transform": feature_transform,
+        "configuration_path": str(config_path),
+        "configuration_sha256": config_sha256(config_path),
+        "base_configuration_path": str(Path(args.base).resolve()),
+        "base_configuration_sha256": config_sha256(args.base),
+        "dataset_cache_path": str(Path(cfg["cache_path"]).resolve()),
+        "dataset_cache_sha256": cache_digest,
+    }
 
     print("Dataset shapes:", {
         key: data[key].shape
@@ -436,7 +507,15 @@ def main():
         bank_dir = Path(cfg["out_dir"]) / f"bank_{bank_id}"
         bank_dir.mkdir(parents=True, exist_ok=True)
         (bank_dir / "summary.json").write_text(
-            json.dumps({"config": cfg, **summary}, indent=2)
+            json.dumps({
+                "experiment_name": cfg["experiment_name"],
+                "feature_count": cfg["feature_count"],
+                "feature_names": cfg["feature_names"],
+                "evaluation_scope": "bank-specific test split",
+                "training_completion_status": "completed",
+                "config": json_safe_config({k: v for k, v in cfg.items() if not k.startswith("_")}),
+                **summary,
+            }, indent=2)
         )
 
         print(f"\nBank {bank_id} summary:")
@@ -445,7 +524,15 @@ def main():
     root = Path(cfg["out_dir"])
     root.mkdir(parents=True, exist_ok=True)
     (root / "summary_all_banks.json").write_text(
-        json.dumps({"config": cfg, "banks": all_results}, indent=2)
+        json.dumps({
+            "config": json_safe_config({k: v for k, v in cfg.items() if not k.startswith("_")}),
+            "experiment_name": cfg["experiment_name"],
+            "feature_count": cfg["feature_count"],
+            "feature_names": cfg["feature_names"],
+            "evaluation_scope": "bank-specific test split",
+            "training_completion_status": "completed",
+            "banks": all_results,
+        }, indent=2)
     )
 
 

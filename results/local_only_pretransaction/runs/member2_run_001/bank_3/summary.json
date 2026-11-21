@@ -1,0 +1,96 @@
+{
+  "experiment_name": "balance_free_7_feature",
+  "feature_count": 7,
+  "feature_names": [
+    "step",
+    "amount",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "evaluation_scope": "bank-specific test split",
+  "training_completion_status": "completed",
+  "config": {
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "val_fraction": 0.1,
+    "thresholds": [
+      0.05,
+      0.1,
+      0.2,
+      0.5,
+      0.8,
+      0.9,
+      0.95,
+      0.99
+    ],
+    "model": {
+      "hidden_dim_1": 128,
+      "hidden_dim_2": 64,
+      "dropout": 0.1,
+      "use_layernorm": true
+    },
+    "experiment_name": "balance_free_7_feature",
+    "feature_mode": "balance_free_7",
+    "feature_count": 7,
+    "feature_names": [
+      "step",
+      "amount",
+      "type_CASH_IN",
+      "type_CASH_OUT",
+      "type_DEBIT",
+      "type_PAYMENT",
+      "type_TRANSFER"
+    ],
+    "epochs": 20,
+    "batch_size": 1024,
+    "lr_max": 0.0001,
+    "lr_min": 1e-05,
+    "weight_decay": 1e-05,
+    "grad_clip": 1.0,
+    "imbalance": "sampler",
+    "patience": 5,
+    "train_eval_subset": 200000,
+    "cache_path": "data_cache/processed.npz",
+    "out_dir": "/home/youssef/fedfraud-paysim-banks/results/local_only_pretransaction/runs/member2_run_001",
+    "global_test_out_dir": "results/local_only_pretransaction_global_test_v2"
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "pr_auc": {
+    "mean": 0.27582503904535816,
+    "std": 0.008052270027727805
+  },
+  "roc_auc": {
+    "mean": 0.9552439720047629,
+    "std": 0.0006632755949473107
+  },
+  "accuracy_at_val_best_f1_threshold": {
+    "mean": 0.9986466073502318,
+    "std": 8.329382603377863e-05
+  },
+  "f1_at_val_best_f1_threshold": {
+    "mean": 0.349979898955989,
+    "std": 0.011440992508233069
+  },
+  "recall_at_val_best_f1_threshold": {
+    "mean": 0.24224806201550386,
+    "std": 0.0033566876115675814
+  },
+  "precision_at_val_best_f1_threshold": {
+    "mean": 0.637987012987013,
+    "std": 0.09335474248266151
+  },
+  "train_time_sec": {
+    "mean": 82.46411323547363,
+    "std": 12.638634145245303
+  }
+}

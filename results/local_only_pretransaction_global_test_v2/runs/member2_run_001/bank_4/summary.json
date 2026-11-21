@@ -1,0 +1,49 @@
+{
+  "experiment_name": "balance_free_7_feature",
+  "feature_count": 7,
+  "feature_names": [
+    "step",
+    "amount",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "evaluation_scope": "global test, model trained on this bank",
+  "training_completion_status": "completed",
+  "standard_deviation_method": "sample standard deviation (ddof=1); 0 for one seed",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "pr_auc": {
+    "mean": 0.23528967201274834,
+    "std": 0.008619087816732889
+  },
+  "roc_auc": {
+    "mean": 0.9516771078123184,
+    "std": 0.00017700507551809418
+  },
+  "accuracy_at_val_threshold": {
+    "mean": 0.9987934739672232,
+    "std": 4.873051648214895e-05
+  },
+  "precision_at_val_threshold": {
+    "mean": 0.6072271967592925,
+    "std": 0.08005030350808202
+  },
+  "recall_at_val_threshold": {
+    "mean": 0.20016240357287862,
+    "std": 0.014273971442344255
+  },
+  "f1_at_val_threshold": {
+    "mean": 0.2995766197169867,
+    "std": 0.007936958258740323
+  },
+  "chosen_threshold": {
+    "mean": 0.9899947423181384,
+    "std": 0.001729958993634222
+  }
+}

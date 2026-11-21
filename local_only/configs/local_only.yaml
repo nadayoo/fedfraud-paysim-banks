@@ -1,3 +1,7 @@
+experiment_name: flower_style_15_feature
+feature_mode: flower15
+feature_count: 15
+feature_names: [step, amount, oldbalanceOrg, newbalanceOrig, oldbalanceDest, newbalanceDest, origin_delta, dest_delta, origin_error, dest_error, type_CASH_IN, type_CASH_OUT, type_DEBIT, type_PAYMENT, type_TRANSFER]
 epochs: 20
 batch_size: 1024
 lr_max: 0.0001
@@ -8,4 +12,5 @@ imbalance: sampler
 patience: 5
 train_eval_subset: 200000
 cache_path: data_cache/processed.npz
-out_dir: results/local_only
+out_dir: results/local_only_flower15
+global_test_out_dir: results/local_only_flower15_global_test

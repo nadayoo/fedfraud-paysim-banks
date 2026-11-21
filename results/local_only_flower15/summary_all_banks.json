@@ -1,0 +1,256 @@
+{
+  "config": {
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "val_fraction": 0.1,
+    "thresholds": [
+      0.05,
+      0.1,
+      0.2,
+      0.5,
+      0.8,
+      0.9,
+      0.95,
+      0.99
+    ],
+    "model": {
+      "hidden_dim_1": 128,
+      "hidden_dim_2": 64,
+      "dropout": 0.1,
+      "use_layernorm": true
+    },
+    "experiment_name": "flower_style_15_feature",
+    "feature_mode": "flower15",
+    "feature_count": 15,
+    "feature_names": [
+      "step",
+      "amount",
+      "oldbalanceOrg",
+      "newbalanceOrig",
+      "oldbalanceDest",
+      "newbalanceDest",
+      "origin_delta",
+      "dest_delta",
+      "origin_error",
+      "dest_error",
+      "type_CASH_IN",
+      "type_CASH_OUT",
+      "type_DEBIT",
+      "type_PAYMENT",
+      "type_TRANSFER"
+    ],
+    "epochs": 20,
+    "batch_size": 1024,
+    "lr_max": 0.0001,
+    "lr_min": 1e-05,
+    "weight_decay": 1e-05,
+    "grad_clip": 1.0,
+    "imbalance": "sampler",
+    "patience": 5,
+    "train_eval_subset": 200000,
+    "cache_path": "data_cache/processed.npz",
+    "out_dir": "/home/youssef/fedfraud-paysim-banks/results/local_only_flower15",
+    "global_test_out_dir": "results/local_only_flower15_global_test"
+  },
+  "experiment_name": "flower_style_15_feature",
+  "feature_count": 15,
+  "feature_names": [
+    "step",
+    "amount",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "origin_delta",
+    "dest_delta",
+    "origin_error",
+    "dest_error",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "evaluation_scope": "bank-specific test split",
+  "training_completion_status": "completed",
+  "banks": {
+    "0": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.21138664516283454,
+        "std": 0.3057586456369868
+      },
+      "roc_auc": {
+        "mean": 0.9752329872780113,
+        "std": 0.016746003731019518
+      },
+      "accuracy_at_val_best_f1_threshold": {
+        "mean": 0.99807469401387,
+        "std": 0.0015929135457490565
+      },
+      "f1_at_val_best_f1_threshold": {
+        "mean": 0.2989526148515544,
+        "std": 0.28906089206331514
+      },
+      "recall_at_val_best_f1_threshold": {
+        "mean": 0.30952380952380953,
+        "std": 0.1911743158680555
+      },
+      "precision_at_val_best_f1_threshold": {
+        "mean": 0.3424646758715019,
+        "std": 0.40010268001287036
+      },
+      "train_time_sec": {
+        "mean": 65.43632594744365,
+        "std": 47.35671240909324
+      }
+    },
+    "1": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.4234039213674708,
+        "std": 0.28590269143958397
+      },
+      "roc_auc": {
+        "mean": 0.9854771012935691,
+        "std": 0.016347704913942013
+      },
+      "accuracy_at_val_best_f1_threshold": {
+        "mean": 0.9992166548166997,
+        "std": 0.00039781360406696985
+      },
+      "f1_at_val_best_f1_threshold": {
+        "mean": 0.544129727729366,
+        "std": 0.2770387389863425
+      },
+      "recall_at_val_best_f1_threshold": {
+        "mean": 0.42735042735042733,
+        "std": 0.23686164889830802
+      },
+      "precision_at_val_best_f1_threshold": {
+        "mean": 0.7623271697484592,
+        "std": 0.30249645159749966
+      },
+      "train_time_sec": {
+        "mean": 81.11259031295776,
+        "std": 38.62889227732315
+      }
+    },
+    "2": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.27076814206336713,
+        "std": 0.20386069987567568
+      },
+      "roc_auc": {
+        "mean": 0.9814284468658295,
+        "std": 0.01175785663902038
+      },
+      "accuracy_at_val_best_f1_threshold": {
+        "mean": 0.9974407736879054,
+        "std": 0.0030239546667673632
+      },
+      "f1_at_val_best_f1_threshold": {
+        "mean": 0.4163451146840065,
+        "std": 0.2592817376827009
+      },
+      "recall_at_val_best_f1_threshold": {
+        "mean": 0.3780487804878048,
+        "std": 0.058167024476643014
+      },
+      "precision_at_val_best_f1_threshold": {
+        "mean": 0.6280353234590522,
+        "std": 0.48151177168883885
+      },
+      "train_time_sec": {
+        "mean": 75.81843272844951,
+        "std": 41.682536427489495
+      }
+    },
+    "3": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.3101017449881978,
+        "std": 0.23102635250387354
+      },
+      "roc_auc": {
+        "mean": 0.9820004955329166,
+        "std": 0.011402388810316274
+      },
+      "accuracy_at_val_best_f1_threshold": {
+        "mean": 0.9971098518253338,
+        "std": 0.0034859948222232292
+      },
+      "f1_at_val_best_f1_threshold": {
+        "mean": 0.4572314817461906,
+        "std": 0.2820452887351138
+      },
+      "recall_at_val_best_f1_threshold": {
+        "mean": 0.434108527131783,
+        "std": 0.07384712745448702
+      },
+      "precision_at_val_best_f1_threshold": {
+        "mean": 0.618173469237299,
+        "std": 0.4653578596529196
+      },
+      "train_time_sec": {
+        "mean": 66.85583353042603,
+        "std": 28.831852427864543
+      }
+    },
+    "4": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.37127392255914765,
+        "std": 0.26694920945945244
+      },
+      "roc_auc": {
+        "mean": 0.9836680670693166,
+        "std": 0.012277945684175626
+      },
+      "accuracy_at_val_best_f1_threshold": {
+        "mean": 0.9984375722276152,
+        "std": 0.0010089911516457562
+      },
+      "f1_at_val_best_f1_threshold": {
+        "mean": 0.486935565702689,
+        "std": 0.2556489605567844
+      },
+      "recall_at_val_best_f1_threshold": {
+        "mean": 0.3862433862433862,
+        "std": 0.1741215097556014
+      },
+      "precision_at_val_best_f1_threshold": {
+        "mean": 0.6737868163839038,
+        "std": 0.41169117672968303
+      },
+      "train_time_sec": {
+        "mean": 63.051281690597534,
+        "std": 27.33160662104252
+      }
+    }
+  }
+}

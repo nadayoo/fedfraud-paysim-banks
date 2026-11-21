@@ -1,0 +1,194 @@
+{
+  "experiment_name": "balance_free_7_feature",
+  "feature_count": 7,
+  "feature_names": [
+    "step",
+    "amount",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "evaluation": "Each local model evaluated on the complete global test set",
+  "threshold_policy": "Each model's own validation-selected threshold",
+  "dataset_cache_sha256": "bb32af60425668a1004f186530f467045911ecf8e41e9f69e6623bf5376f5a76",
+  "standard_deviation_method": "sample standard deviation (ddof=1); 0 for one seed",
+  "banks": {
+    "0": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.23752772756014617,
+        "std": 0.006066554067446163
+      },
+      "roc_auc": {
+        "mean": 0.9496047688104573,
+        "std": 0.001987045566557838
+      },
+      "accuracy_at_val_threshold": {
+        "mean": 0.9988416721413506,
+        "std": 9.800024058086325e-05
+      },
+      "precision_at_val_threshold": {
+        "mean": 0.742378497790869,
+        "std": 0.19966217352632395
+      },
+      "recall_at_val_threshold": {
+        "mean": 0.18920016240357287,
+        "std": 0.023816499189707612
+      },
+      "f1_at_val_threshold": {
+        "mean": 0.2960671104740636,
+        "std": 0.01617094698345939
+      },
+      "chosen_threshold": {
+        "mean": 0.9902261630801036,
+        "std": 0.001977338370523779
+      }
+    },
+    "1": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.23650271666115527,
+        "std": 0.006016314221264059
+      },
+      "roc_auc": {
+        "mean": 0.9517864049586177,
+        "std": 0.0013582530241126485
+      },
+      "accuracy_at_val_threshold": {
+        "mean": 0.9987997606855875,
+        "std": 3.081186880572096e-05
+      },
+      "precision_at_val_threshold": {
+        "mean": 0.6092410381672372,
+        "std": 0.04747952675758906
+      },
+      "recall_at_val_threshold": {
+        "mean": 0.1993503857084856,
+        "std": 0.004611375027040426
+      },
+      "f1_at_val_threshold": {
+        "mean": 0.3000439322973633,
+        "std": 0.002585316018199928
+      },
+      "chosen_threshold": {
+        "mean": 0.9901948553570906,
+        "std": 0.001496468227209635
+      }
+    },
+    "2": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.24407541394367852,
+        "std": 0.005133366556929579
+      },
+      "roc_auc": {
+        "mean": 0.953946437892622,
+        "std": 0.0008799467019956029
+      },
+      "accuracy_at_val_threshold": {
+        "mean": 0.9987683270937654,
+        "std": 9.370075515145625e-05
+      },
+      "precision_at_val_threshold": {
+        "mean": 0.5877009112534027,
+        "std": 0.13509004778890202
+      },
+      "recall_at_val_threshold": {
+        "mean": 0.2054405196914332,
+        "std": 0.01589668855091506
+      },
+      "f1_at_val_threshold": {
+        "mean": 0.30090863881824165,
+        "std": 0.0036493521612879806
+      },
+      "chosen_threshold": {
+        "mean": 0.9898426408012829,
+        "std": 0.0003777544593819704
+      }
+    },
+    "3": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.2446616240493613,
+        "std": 0.007133813295609732
+      },
+      "roc_auc": {
+        "mean": 0.9523701108857375,
+        "std": 0.0004543319458362361
+      },
+      "accuracy_at_val_threshold": {
+        "mean": 0.998821764199863,
+        "std": 4.322357002266498e-05
+      },
+      "precision_at_val_threshold": {
+        "mean": 0.6474983885994465,
+        "std": 0.08459687497366203
+      },
+      "recall_at_val_threshold": {
+        "mean": 0.20219244823386115,
+        "std": 0.013834125081121248
+      },
+      "f1_at_val_threshold": {
+        "mean": 0.306728505389984,
+        "std": 0.008081933483329957
+      },
+      "chosen_threshold": {
+        "mean": 0.9917714867958819,
+        "std": 0.0010460764306550847
+      }
+    },
+    "4": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "pr_auc": {
+        "mean": 0.23528967201274834,
+        "std": 0.008619087816732889
+      },
+      "roc_auc": {
+        "mean": 0.9516771078123184,
+        "std": 0.00017700507551809418
+      },
+      "accuracy_at_val_threshold": {
+        "mean": 0.9987934739672232,
+        "std": 4.873051648214895e-05
+      },
+      "precision_at_val_threshold": {
+        "mean": 0.6072271967592925,
+        "std": 0.08005030350808202
+      },
+      "recall_at_val_threshold": {
+        "mean": 0.20016240357287862,
+        "std": 0.014273971442344255
+      },
+      "f1_at_val_threshold": {
+        "mean": 0.2995766197169867,
+        "std": 0.007936958258740323
+      },
+      "chosen_threshold": {
+        "mean": 0.9899947423181384,
+        "std": 0.001729958993634222
+      }
+    }
+  }
+}

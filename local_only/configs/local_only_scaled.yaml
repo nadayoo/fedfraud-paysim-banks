@@ -1,0 +1,16 @@
+experiment_name: scaled_engineered_15_feature_ablation
+feature_mode: scaled_engineered_15
+feature_count: 15
+feature_names: [step, amount, oldbalanceOrg, newbalanceOrig, oldbalanceDest, newbalanceDest, origin_delta, dest_delta, origin_error, dest_error, type_CASH_IN, type_CASH_OUT, type_DEBIT, type_PAYMENT, type_TRANSFER]
+epochs: 20
+batch_size: 1024
+lr_max: 0.0001
+lr_min: 0.00001
+weight_decay: 0.00001
+grad_clip: 1.0
+imbalance: sampler
+patience: 5
+train_eval_subset: 200000
+cache_path: data_cache/processed.npz
+out_dir: results/local_only_scaled_v2
+global_test_out_dir: results/local_only_scaled_v2_global_test
