@@ -1,0 +1,13 @@
+Team decisions log
+Evaluation protocol (proposed, shared by all experiments)
+Features: 15-feature Flower Hub setup, via common/data.py
+Seeds: 0, 1, 2; report mean and sample std (ddof=1)
+Validation: 10% of train, grouped by nameOrig (hash split in common/data.py)
+Test set: official test split, used only for final evaluation
+Threshold: chosen on validation (best F1); also report the fixed list 0.05, 0.1, 0.2, 0.5, 0.8, 0.9, 0.95, 0.99
+PR-AUC = sklearn average_precision_score
+Every run stores: config.json, results.json, checkpoint, scaler, git commit
+Output folders are separate per experiment; never write to another member's folder
+[centralized] log
+Imbalance default: sampler (as in Flower Hub). Comparing none / sampler / pos_weight on validation PR-AUC.
+First run (seed 0, sampler): unstable validation PR-AUC (0.44 <-> 0.02). Investigating feature scaling.

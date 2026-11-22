@@ -9,6 +9,7 @@ import argparse
 import copy
 import json
 import math
+import subprocess
 import time
 from pathlib import Path
 
@@ -40,6 +41,16 @@ def predict_logits(model, X, device, batch=65536) -> np.ndarray:
 
 def bce(logits: np.ndarray, y: np.ndarray) -> float:
     return float(F.binary_cross_entropy_with_logits(torch.from_numpy(logits), torch.from_numpy(y)))
+
+
+def git_commit() -> str:
+    """Short commit hash (+ '-dirty' if there are uncommitted changes), for the experiment record."""
+    try:
+        h = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()
+        dirty = subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()
+        return h + ("-dirty" if dirty else "")
+    except Exception:
+        return "unknown"
 
 
 def run_seed(cfg: dict, data: dict, seed: int, out_dir: Path) -> dict:
@@ -111,9 +122,11 @@ def run_seed(cfg: dict, data: dict, seed: int, out_dir: Path) -> dict:
                                    **threshold_metrics(test_probs[mk], ytest[mk], thr)}
     res.update(seed=seed, best_epoch=best_epoch, val_pr_auc=best_pr, chosen_threshold=thr,
                train_time_sec=train_time, n_params=count_parameters(model),
-               imbalance=mode, epochs_run=len(history))
+               imbalance=mode, epochs_run=len(history), git_commit=git_commit())
 
     torch.save(best_state, out_dir / "model.pt")
+    np.savez(out_dir / "scaler.npz", means=data["scaler_means"], stds=data["scaler_stds"])
+    (out_dir / "config.json").write_text(json.dumps({**cfg, "seed": seed, "git_commit": git_commit()}, indent=2))
     (out_dir / "history.json").write_text(json.dumps(history, indent=2))
     (out_dir / "results.json").write_text(json.dumps(res, indent=2))
     plot_seed(history, res["at_val_best_f1_threshold"], seed, out_dir)
@@ -168,7 +181,7 @@ def main() -> None:
     print({k: v.shape for k, v in data.items() if k.startswith(("X_", "y_"))})
     results = [run_seed(cfg, data, s, root / f"seed_{s}") for s in seeds]
     summary = aggregate(results)
-    (root / "summary.json").write_text(json.dumps({"config": cfg, **summary}, indent=2))
+    (root / "summary.json").write_text(json.dumps({"git_commit": git_commit(), "config": cfg, **summary}, indent=2))
     print(json.dumps(summary, indent=2))
 
 

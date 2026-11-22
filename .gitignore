@@ -7,3 +7,6 @@ data_cache/
 *.pt
 *.pth
 scratch_*.py
+*.pt
+*.pth
+!results/**/model.pt
