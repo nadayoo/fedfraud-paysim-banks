@@ -8,5 +8,12 @@ data_cache/
 *.pt
 *.pth
 scratch_*.py
+
 results/local_only/bank_*/
-results/centralized/
+
+results/centralized/*
+!results/centralized/sampler/
+results/centralized/sampler/*
+!results/centralized/sampler/seed_*/
+results/centralized/sampler/seed_*/*
+!results/centralized/sampler/seed_*/model.pt
