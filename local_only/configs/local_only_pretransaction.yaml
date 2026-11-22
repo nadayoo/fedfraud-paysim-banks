@@ -1,0 +1,16 @@
+experiment_name: balance_free_7_feature
+feature_mode: balance_free_7
+feature_count: 7
+feature_names: [step, amount, type_CASH_IN, type_CASH_OUT, type_DEBIT, type_PAYMENT, type_TRANSFER]
+epochs: 20
+batch_size: 1024
+lr_max: 0.0001
+lr_min: 1.0e-05
+weight_decay: 1.0e-05
+grad_clip: 1.0
+imbalance: sampler
+patience: 5
+train_eval_subset: 200000
+cache_path: data_cache/processed.npz
+out_dir: results/local_only_pretransaction
+global_test_out_dir: results/local_only_pretransaction_global_test_v2
