@@ -171,13 +171,19 @@ def main() -> None:
     ap.add_argument("--config", default="centralized/configs/centralized.yaml")
     ap.add_argument("--seeds", type=int, nargs="*", default=None)
     ap.add_argument("--imbalance", default=None, help="override: none|sampler|pos_weight|both")
+    ap.add_argument("--eng", default=None, help="override engineered-feature handling: none|standardize|signed_log")
     args = ap.parse_args()
     cfg = {**yaml.safe_load(open(args.base)), **yaml.safe_load(open(args.config))}
     if args.imbalance:
         cfg["imbalance"] = args.imbalance
+    if args.eng:
+        cfg["eng_transform"] = args.eng
+    eng = cfg.get("eng_transform", "none")
+    if eng != "none":   # separate cache + output folder per variant, nothing gets overwritten
+        cfg["cache_path"] = cfg["cache_path"].replace(".npz", f"_{eng}.npz")
     seeds = args.seeds if args.seeds is not None else cfg["seeds"]
-    root = Path(cfg["out_dir"]) / cfg["imbalance"]
-    data = load_or_build(cfg["cache_path"], cfg["val_fraction"])
+    root = Path(cfg["out_dir"]) / (cfg["imbalance"] if eng == "none" else f"{cfg['imbalance']}_{eng}")
+    data = load_or_build(cfg["cache_path"], cfg["val_fraction"], eng)
     print({k: v.shape for k, v in data.items() if k.startswith(("X_", "y_"))})
     results = [run_seed(cfg, data, s, root / f"seed_{s}") for s in seeds]
     summary = aggregate(results)

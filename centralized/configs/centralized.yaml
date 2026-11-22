@@ -6,6 +6,7 @@ weight_decay: 0.00001
 grad_clip: 1.0
 imbalance: sampler        # none | sampler | pos_weight | both
 patience: 5
+eng_transform: none      # none (reference) | standardize | signed_log
 train_eval_subset: 200000 # natural-distribution subset of train for comparable loss curve
 cache_path: data_cache/processed.npz
 out_dir: results/centralized

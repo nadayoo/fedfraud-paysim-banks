@@ -182,8 +182,9 @@
   "best_epoch": 4,
   "val_pr_auc": 0.4375833488950887,
   "chosen_threshold": 0.9617787071894248,
-  "train_time_sec": 811.2058010101318,
+  "train_time_sec": 806.7711591720581,
   "n_params": 10753,
   "imbalance": "sampler",
-  "epochs_run": 9
+  "epochs_run": 9,
+  "git_commit": "1fda9c3-dirty"
 }

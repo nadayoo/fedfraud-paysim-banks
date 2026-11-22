@@ -1,0 +1,76 @@
+{
+  "git_commit": "1fda9c3-dirty",
+  "config": {
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "val_fraction": 0.1,
+    "thresholds": [
+      0.05,
+      0.1,
+      0.2,
+      0.5,
+      0.8,
+      0.9,
+      0.95,
+      0.99
+    ],
+    "model": {
+      "hidden_dim_1": 128,
+      "hidden_dim_2": 64,
+      "dropout": 0.1,
+      "use_layernorm": true
+    },
+    "epochs": 20,
+    "batch_size": 1024,
+    "lr_max": 0.0001,
+    "lr_min": 1e-05,
+    "weight_decay": 1e-05,
+    "grad_clip": 1.0,
+    "imbalance": "sampler",
+    "patience": 5,
+    "eng_transform": "standardize",
+    "train_eval_subset": 200000,
+    "cache_path": "data_cache/processed_standardize.npz",
+    "out_dir": "results/centralized"
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "pr_auc": {
+    "mean": 0.9769089867607007,
+    "std": 0.0016520920302387446
+  },
+  "roc_auc": {
+    "mean": 0.9999225997173099,
+    "std": 2.120444867109517e-05
+  },
+  "accuracy_at_val_best_f1_threshold": {
+    "mean": 0.9997846798960177,
+    "std": 3.8240614905786784e-05
+  },
+  "precision_at_val_best_f1_threshold": {
+    "mean": 0.9493811240235276,
+    "std": 0.013206357122026662
+  },
+  "recall_at_val_best_f1_threshold": {
+    "mean": 0.8806333739342266,
+    "std": 0.044453806555163615
+  },
+  "f1_at_val_best_f1_threshold": {
+    "mean": 0.9130792325283341,
+    "std": 0.018358650319626593
+  },
+  "fpr_at_val_best_f1_threshold": {
+    "mean": 6.137469883120541e-05,
+    "std": 1.9145011197886884e-05
+  },
+  "train_time_sec": {
+    "mean": 1080.6389822165172,
+    "std": 201.84136157652804
+  }
+}

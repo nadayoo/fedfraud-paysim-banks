@@ -1,4 +1,5 @@
 {
+  "git_commit": "1fda9c3-dirty",
   "config": {
     "seeds": [
       0,
@@ -30,6 +31,7 @@
     "grad_clip": 1.0,
     "imbalance": "sampler",
     "patience": 5,
+    "eng_transform": "none",
     "train_eval_subset": 200000,
     "cache_path": "data_cache/processed.npz",
     "out_dir": "results/centralized"
@@ -66,7 +68,7 @@
     "std": 0.0
   },
   "train_time_sec": {
-    "mean": 811.2058010101318,
+    "mean": 806.7711591720581,
     "std": 0.0
   }
 }
