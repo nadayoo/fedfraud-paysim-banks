@@ -1,0 +1,67 @@
+{
+  "totals": {
+    "total_comm_bytes": 8890800
+  },
+  "train_rounds": {
+    "1": {
+      "comm_bytes_total": 444540
+    },
+    "10": {
+      "comm_bytes_total": 444540
+    },
+    "11": {
+      "comm_bytes_total": 444540
+    },
+    "12": {
+      "comm_bytes_total": 444540
+    },
+    "13": {
+      "comm_bytes_total": 444540
+    },
+    "14": {
+      "comm_bytes_total": 444540
+    },
+    "15": {
+      "comm_bytes_total": 444540
+    },
+    "16": {
+      "comm_bytes_total": 444540
+    },
+    "17": {
+      "comm_bytes_total": 444540
+    },
+    "18": {
+      "comm_bytes_total": 444540
+    },
+    "19": {
+      "comm_bytes_total": 444540
+    },
+    "2": {
+      "comm_bytes_total": 444540
+    },
+    "20": {
+      "comm_bytes_total": 444540
+    },
+    "3": {
+      "comm_bytes_total": 444540
+    },
+    "4": {
+      "comm_bytes_total": 444540
+    },
+    "5": {
+      "comm_bytes_total": 444540
+    },
+    "6": {
+      "comm_bytes_total": 444540
+    },
+    "7": {
+      "comm_bytes_total": 444540
+    },
+    "8": {
+      "comm_bytes_total": 444540
+    },
+    "9": {
+      "comm_bytes_total": 444540
+    }
+  }
+}
